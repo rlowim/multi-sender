@@ -15,6 +15,9 @@ contract MultiSender {
 
       emit Transfer(msg.sender, addr, _amount);
     }
+    uint change = msg.value - (_amount * _addresses.length);
+    payable(msg.sender).transfer(change);
+
   }
 
   function getBalance() public view returns (uint) {

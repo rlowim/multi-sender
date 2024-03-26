@@ -29,7 +29,7 @@ describe("MultiSender contract", function() {
       const { contract, signer, acc1, acc2 } = await loadFixture(deployMultiSenderFixture);
       const value = 1000000;
       const amount = 100000;
-      await expect(contract.multiSend(amount, [acc1.address, acc2.address], {value: value})).to.changeEtherBalance(signer, "-1000000");
+      await expect(contract.multiSend(amount, [acc1.address, acc2.address], {value: value})).to.changeEtherBalance(signer, "-200000");
       await expect(contract.multiSend(amount, [acc1.address, acc2.address], {value: value})).to.changeEtherBalance(acc1, "100000");
       await expect(contract.multiSend(amount, [acc1.address, acc2.address], {value: value})).to.changeEtherBalance(acc2, "100000");
     });
