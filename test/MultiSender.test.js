@@ -18,29 +18,27 @@ describe("MultiSender contract", function() {
   describe("Transactions", function() {
     it("Sending the correct transaction should complete without an error", async function() {
       const { contract, acc1, acc2 } = await loadFixture(deployMultiSenderFixture);
-      await expect(contract.multiSend(100000, [acc1.address, acc2.address], {value: 1000000})).to.not.be.reverted;
+      await expect(contract.multiSend(100000, [acc1, acc2], {value: 1000000})).to.not.be.reverted;
     });
     it("Sending the correct transaction should emit Transfer events", async function() {
       const { contract, signer, acc1, acc2 } = await loadFixture(deployMultiSenderFixture);
-      await expect(contract.multiSend(100000, [acc1.address, acc2.address], {value: 1000000})).to.emit(contract, "Transfer").withArgs(signer, acc1, 100000);
-      await expect(contract.multiSend(100000, [acc1.address, acc2.address], {value: 1000000})).to.emit(contract, "Transfer").withArgs(signer, acc2, 100000);
+      await expect(contract.multiSend(100000, [acc1, acc2], {value: 1000000})).to.emit(contract, "Transfer").withArgs(signer, acc1, 100000);
+      await expect(contract.multiSend(100000, [acc1, acc2], {value: 1000000})).to.emit(contract, "Transfer").withArgs(signer, acc2, 100000);
     });
     it("Sending the correct transaction should decrease/increase the balance of accounts", async function() {
       const { contract, signer, acc1, acc2 } = await loadFixture(deployMultiSenderFixture);
-      const value = 1000000;
-      const amount = 100000;
-      await expect(contract.multiSend(amount, [acc1.address, acc2.address], {value: value})).to.changeEtherBalance(signer, "-200000");
-      await expect(contract.multiSend(amount, [acc1.address, acc2.address], {value: value})).to.changeEtherBalance(acc1, "100000");
-      await expect(contract.multiSend(amount, [acc1.address, acc2.address], {value: value})).to.changeEtherBalance(acc2, "100000");
+      await expect(contract.multiSend(100000, [acc1, acc2], {value: 1000000})).to.changeEtherBalance(signer, "-200000");
+      await expect(contract.multiSend(100000, [acc1, acc2], {value: 1000000})).to.changeEtherBalance(acc1, "100000");
+      await expect(contract.multiSend(100000, [acc1, acc2], {value: 1000000})).to.changeEtherBalance(acc2, "100000");
     });
     it("Should revert with the right error if if not enough funds were sent", async function() {
       const { contract, acc1, acc2 } = await loadFixture(deployMultiSenderFixture);
-      await expect(contract.multiSend(100000, [acc1.address, acc2.address], {value: 1000})).to.be.revertedWith("Not enough funds");
+      await expect(contract.multiSend(100000, [acc1, acc2], {value: 1000})).to.be.revertedWith("Not enough funds");
     });
     it("Should be possible to send ethers from any account", async function() {
       const { contract, signer, acc1, acc2, acc3 } = await loadFixture(deployMultiSenderFixture);
-      await expect(contract.connect(acc1).multiSend(100000, [acc2.address, acc3.address], {value: 1000000})).to.not.be.reverted;
-      await expect(contract.connect(acc2).multiSend(100000, [signer.address, acc3.address], {value: 1000000})).to.not.be.reverted;
+      await expect(contract.connect(acc1).multiSend(100000, [acc2, acc3], {value: 1000000})).to.not.be.reverted;
+      await expect(contract.connect(acc2).multiSend(100000, [signer, acc3], {value: 1000000})).to.not.be.reverted;
     });
   });
 });
