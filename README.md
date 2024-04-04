@@ -17,10 +17,6 @@ You can check [this](https://git-scm.com/book/en/v2/Getting-Started-Installing-G
 Currently maintained LTS version is recommended.
 [Here](https://nodejs.org/en/download/package-manager) you have the instruction.
 
-### Install or upgrade Node.js
-Currently maintained LTS version is recommended.
-[Here](https://nodejs.org/en/download/package-manager) you have the instruction.
-
 ### Clone the repository from Github and move to the project directory
 ```shell
 git clone https://github.com/rlowim/multi-sender.git
