@@ -1,0 +1,23 @@
+.topnav {
+  background-color: #f2f2f2;
+  overflow: hidden;
+}
+
+.topnav .elem {
+  float: right;
+}
+
+#addr {
+  padding: 4px 15px;
+}
+
+footer {
+  color: gray;
+  padding: 40px;
+  margin: 0;
+  text-align: center;
+}
+
+footer a {
+  color: grey;
+}
