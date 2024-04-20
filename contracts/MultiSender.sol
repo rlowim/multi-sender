@@ -30,4 +30,7 @@ contract MultiSender {
 
 
 
+  receive () external payable { revert("Contract cannot receive Ether directly"); }
+
+  fallback() external payable { revert("Contract cannot receive Ether directly"); }
 }

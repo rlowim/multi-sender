@@ -75,5 +75,21 @@ describe("MultiSender contract", function () {
           .multiSend(100000, [signer, acc3], { value: 1000000 })
       ).to.not.be.reverted;
     });
+    it("Should not be possible to send ethers directly to the contract", async function () {
+      const { contract, acc1 } = await loadFixture(deployMultiSenderFixture);
+      await expect(
+        acc1.sendTransaction({
+          to: contract,
+          value: 1000000,
+        })
+      ).to.be.revertedWith("Contract cannot receive Ether directly");
+      await expect(
+        acc1.sendTransaction({
+          to: contract,
+          value: 1000000,
+          data: ethers.randomBytes(8),
+        })
+      ).to.be.revertedWith("Contract cannot receive Ether directly");
+    });
   });
 });
