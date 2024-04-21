@@ -91,5 +91,14 @@ describe("MultiSender contract", function () {
         })
       ).to.be.revertedWith("Contract cannot receive Ether directly");
     });
+    it("Should be reverted when .call executing is failed", async function () {
+      const { contract, acc1 } = await loadFixture(deployMultiSenderFixture);
+      const testHelper = await ethers.deployContract("TestHelper");
+      await testHelper.waitForDeployment();
+      const testHelperAddr = await testHelper.getAddress();
+      await expect(
+        contract.multiSend(100000, [testHelperAddr, acc1], { value: 1000000 })
+      ).to.be.revertedWith("Failed to send Ether");
+    });
   });
 });
