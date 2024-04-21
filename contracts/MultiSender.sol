@@ -13,9 +13,8 @@ contract MultiSender {
   /// @param _amount Amount of ETH to send to a single address
   /// @param _addresses List of recipient addresses
   function multiSend(uint _amount, address[] memory _addresses) public payable {
+    require(msg.value >= _amount * _addresses.length, "Not enough funds");
     for (uint i = 0; i < _addresses.length; i++) {
-      require(msg.value >= _amount * _addresses.length, "Not enough funds");
-
       (bool isSentToAddresses, ) = payable(_addresses[i]).call{value: _amount}("");
       require(isSentToAddresses, "Failed to send Ether");
 
@@ -27,8 +26,6 @@ contract MultiSender {
     
     emit TransferChange(msg.sender, change);
   }
-
-
 
   receive () external payable { revert("Contract cannot receive Ether directly"); }
 
